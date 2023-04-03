@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    window.onload=function(){
+        document.getElementById("inp").onclick=function (){
+            //创建对象
+            var xml = new XMLHttpRequest();
+            //绑定事件
+            xml.onreadystatechange=function (){
+                var json;
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        var html="";
+                        var jsons = xml.responseText;
+                        json = JSON.parse(jsons);
+                        for (let i = 0; i < json.length; i++) {
+                            html+="<tr>"
+                            html += "<td>";
+                            html += json[i].no;
+                            html += "</td>";
+                            html += "<td>";
+                            html += json[i].name;
+                            html += "</td>";
+                            html+="</tr>"
+                        }
+                        document.getElementById("tbo").innerHTML = html;
+                    } else {
+                        alert(this.status)
+                    }
+                }
+            }
+            //打开通道
+            xml.open("GET","/AJAX/AJAX03",true);
+            //发送请求
+            xml.send()
+        }
+    }
+</script>
+<body>
+<input type="button" id="inp" value="发送请求">
+<table>
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>姓名</th>
+    </tr>
+    </thead>
+    <tbody id="tbo">
+    </tbody>
+</table>
+</body>
+</html>

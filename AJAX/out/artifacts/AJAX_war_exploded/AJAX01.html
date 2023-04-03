@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //绑定页面加载完毕事件
+    window.onload=function (){
+        //获取id为but的按钮并绑定事件
+        document.getElementById("but").onclick=function (){
+            //创建XMLHttpRequest对象
+            var xml = new XMLHttpRequest();
+            //该对象状态改变时执行的事件
+            xml.onreadystatechange=function (){
+                //xml对象的状态码为4表示服务器处理请求完毕并完成了响应
+               if (xml.readyState==4){
+                   if (this.status == 200) {
+                       //xml的responseText可以以Text形式获取后端响应回来的数据
+                       //innerHTML表示以HTML代码形式解释得到的数据并插入到元素中
+                       document.getElementById("mydiv").innerHTML=xml.responseText
+                   }
+               }
+            }
+            //打开通道
+            //设置发送Get请求
+            //xml.open("GET","/AJAX/AJAXGet",true);
+            //发送请求
+            //xml.send();
+            xml.open("POST","/AJAX/AJAXPost",true);
+            xml.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+            var username = document.getElementById("in1").value;
+            var password = document.getElementById("in2").value;
+            xml.send("username="+username+"&password="+password)
+        }
+    }
+</script>
+<button id="but">发送请求</button>
+<div id="mydiv">
+<input type="text" id="in1"/>
+    <input type="text" id="in2">
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    window.onload=function (){
+        document.getElementById("inp").onblur=function (){
+            var xml=new XMLHttpRequest()
+            xml.onreadystatechange=function (){
+                if (xml.readyState==4) {
+                    if (this.status==200) {
+
+
+                        document.getElementById("sp").innerText=xml.responseText
+                    }
+                }
+            }
+            xml.open("POST","/AJAX/userAJAX",true)
+            xml.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+            var value = document.getElementById("inp").value;
+            xml.send("username="+value)
+
+        }
+    }
+</script>
+<body>
+用户名<input type="text" id="inp"><span id="sp"></span>
+</body>
+</html>

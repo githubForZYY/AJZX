@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript">
+    window.onload=function (){
+        document.getElementById("mysel").onchange=function (){
+            var xml = new XMLHttpRequest();
+            xml.onreadystatechange=function (){
+                if (xml.readyState == 4) {
+                    if (this.status == 200) {
+                        var jsons = JSON.parse(xml.responseText);
+                        var html="";
+                        html+="<option>--请选择市--</option>"
+                        if(jsons.length!=0){
+                            for(var i=0;i<jsons.length;i++)
+                            {
+                                html+="<option>"+jsons[i].name+"</option>";
+                            }
+                            document.getElementById("city").innerHTML=html;
+                        }else{
+                            document.getElementById("city").innerHTML=html;
+                        }
+                    }
+                }
+            }
+            xml.open("GET","/AJAX/AJAX04?name="+document.getElementById("mysel").value,true);
+            xml.send();
+        }
+    }
+</script>
+<body>
+    <select id="mysel" >
+        <option>--请选择省份--</option>
+        <option>广西</option>
+        <option>广东</option>
+        <option>湖南</option>
+    </select>
+    <select id="city">
+
+    </select>
+</body>
+</html>

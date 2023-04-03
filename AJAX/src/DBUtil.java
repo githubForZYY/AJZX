@@ -1,0 +1,46 @@
+import java.sql.*;
+import java.util.ResourceBundle;
+
+public class DBUtil {
+    static ResourceBundle bundle=ResourceBundle.getBundle("/DB");
+    private static String driver=bundle.getString("driver");
+    private static String url=bundle.getString("url");
+    private static String user=bundle.getString("user");
+    private static String password=bundle.getString("password");
+    static {
+        try {
+            //注册驱动
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    public static Connection connection() throws SQLException {
+        Connection conn;
+        conn=DriverManager.getConnection(url,user,password);
+        return conn;
+    }
+    public static void close(Connection conn,PreparedStatement ps,ResultSet rs){
+        if (rs!=null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (ps!=null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn!=null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
